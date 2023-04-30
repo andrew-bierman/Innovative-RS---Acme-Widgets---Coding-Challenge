@@ -31,7 +31,7 @@ const JHAList = () => {
     // }
 
     return (
-        <div className="section">
+        <div className="section is-flex-grow-1">
             <div className="level">
                 <div className="level-left">
                     <h1 className="title">Job Hazard Analysis (JHA) List</h1>

@@ -1,6 +1,25 @@
-# Innovative-RS---Acme-Widgets---Coding-Challenge
+# Innovative-RS - Acme-Widgets - Coding-Challenge
 
-This is the starter for the Flask React project.
+This is a full-stack web application for creating and managing Job Hazard Analysis (JHA) documents. It enables users to create, read, update, and delete JHAs and their associated steps. It also allows users to create, read, update, and delete hazards and controls.
+
+## Technologies Used
+Backend:
+- Python
+- Flask
+- SQLAlchemy 
+- Alembic
+- Postgres
+
+Frontend:
+- React
+- Redux
+- Bulma CSS Framework
+
+## Dependencies for Local Development
+- Python3
+- Pipenv
+- Node.js
+- NPM
 
 ## Getting started
 1. Clone this repository (only this branch)
@@ -40,3 +59,6 @@ This is the starter for the Flask React project.
    ```
 
 7. To run the React App in development, checkout the [README](./react-app/README.md) inside the `react-app` directory.
+
+## Deployed Site
+For your convenience, the site is deployed on Render at [Acme-Widgets](https://acmewidgets.onrender.com/)
