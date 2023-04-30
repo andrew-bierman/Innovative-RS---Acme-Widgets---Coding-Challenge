@@ -1,6 +1,5 @@
 from app.models import db, environment, SCHEMA, JHA, Step, Hazard, Control, Training, PPE
 from sqlalchemy.sql import text
-from faker import Faker
 
 def create_jha(title, author):
     jha = JHA(title=title, author=author)
