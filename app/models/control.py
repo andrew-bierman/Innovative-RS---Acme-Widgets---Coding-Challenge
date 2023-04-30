@@ -8,7 +8,7 @@ class Control(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(300), nullable=False)
-    step_id = db.Column(db.Integer, db.ForeignKey("steps.id", ondelete="CASCADE"), nullable=False) 
+    step_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("steps.id"), ondelete="CASCADE"), nullable=False) 
     step = db.relationship("Step", back_populates="controls", lazy=True) 
 
 

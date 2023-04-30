@@ -8,7 +8,7 @@ class Step(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(300), nullable=False)
-    jha_id = db.Column(db.Integer, db.ForeignKey("jhas.id", ondelete="CASCADE"), nullable=False)
+    jha_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("jhas.id"), ondelete="CASCADE"), nullable=False)
     hazards = db.relationship("Hazard", backref="hazards_step", lazy=True, cascade="all, delete-orphan")
     controls = db.relationship("Control", backref="controls_step", lazy=True, cascade="all, delete-orphan")
 

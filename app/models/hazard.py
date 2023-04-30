@@ -9,7 +9,7 @@ class Hazard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(300), nullable=False)
     consequence = db.Column(db.String(300), nullable=True)
-    step_id = db.Column(db.Integer, db.ForeignKey("steps.id", ondelete="CASCADE"), nullable=False)
+    step_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("steps.id"), ondelete="CASCADE"), nullable=False)
     step = db.relationship("Step", back_populates="hazards", lazy=True)
 
     def to_dict(self):

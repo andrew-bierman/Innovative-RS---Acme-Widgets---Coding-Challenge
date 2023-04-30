@@ -8,7 +8,7 @@ class Training(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(200), nullable=False)
-    jha_id = db.Column(db.Integer, db.ForeignKey("jhas.id", ondelete='CASCADE'), nullable=False)
+    jha_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("jhas.id"), ondelete='CASCADE'), nullable=False)
     jha = db.relationship("JHA", back_populates="trainings", lazy=True)
 
     def to_dict(self):
