@@ -22,7 +22,7 @@ Frontend:
 - NPM
 
 ## Getting started
-1. Clone this repository (only this branch)
+1. Clone this repository
 
 2. Install dependencies
 

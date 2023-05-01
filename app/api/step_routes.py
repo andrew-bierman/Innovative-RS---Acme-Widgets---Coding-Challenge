@@ -20,6 +20,24 @@ def create_step(jha_id):
         "jhaId": jha.id
     })
 
+@step_routes.route("/step/getStep/<int:step_id>", methods=["GET"])
+def get_step(step_id):
+    step = Step.query.get(step_id)
+    if not step:
+        return jsonify({"message": "Step not found"}), 404
+    return jsonify({
+        "message": "Step found",
+        "step": {
+            "id": step.id, 
+            "description": step.description, 
+            "jha_id": step.jha_id,
+            "hazards": [ hazard.to_dict() for hazard in step.hazards ],
+            "controls": [ control.to_dict() for control in step.controls ]
+        },
+        "jha": {"id": step.jha.id, "title": step.jha.title},
+        "jhaId": step.jha.id,
+    })
+
 @step_routes.route("/step/updateStep/<int:step_id>", methods=["PUT"])
 def update_step(step_id):
     step = Step.query.get(step_id)

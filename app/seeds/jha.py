@@ -53,12 +53,19 @@ def create_jha(title, author):
 
 
 def seed_jhas():
-    jha_data = [
-        {"title": "Construction of a Wooden Deck", "author": "John Doe"},
-        {"title": "Handling of Hazardous Chemicals", "author": "Jane Smith"},
-        {"title": "Preparation and Serving of Food", "author": "Jim Brown"},
-        {"title": "Maintenance of Industrial Equipment", "author": "Jack Wilson"},
+    jha_data = [    
+        {"title": "Repair of Heavy Machinery", "author": "John Smith"}, 
+        {"title": "Maintenance of Conveyor Belts", "author": "Jane Doe"},    
+        {"title": "Construction of Steel Structures", "author": "Jim Brown"},    
+        {"title": "Demolition of Concrete Buildings", "author": "Jack Wilson"},    
+        {"title": "Assembling of Industrial Equipment", "author": "Alice Cooper"},    
+        {"title": "Operation of Heavy Equipment", "author": "Bob Dylan"},    
+        {"title": "Handling of Hazardous Waste", "author": "Charlie Parker"},    
+        {"title": "Welding and Fabrication", "author": "David Bowie"},    
+        {"title": "Chemical Mixing and Blending", "author": "Eddie Vedder"},    
+        {"title": "Packaging and Shipping of Goods", "author": "Frank Sinatra"},
     ]
+
 
     for jha_item in jha_data:
         create_jha(jha_item["title"], jha_item["author"])

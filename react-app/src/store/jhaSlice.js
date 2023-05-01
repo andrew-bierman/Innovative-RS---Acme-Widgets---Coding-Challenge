@@ -5,6 +5,7 @@ import {
   createJHA,
   updateJHA,
   deleteJHA,
+  fetchStep,
   createStep,
   deleteStep,
   updateStep,
@@ -78,6 +79,31 @@ export const jhaSlice = createSlice({
         jhaAdapter.removeOne(state, action.payload);
       })
       .addCase(deleteJHA.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      // fetching a step
+      .addCase(fetchStep.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchStep.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const { jhaId, step } = action.payload;
+        const jha = state.entities[jhaId];
+        if (jha) {
+          const updatedJha = produce(jha, (draftJha) => {
+            const existingStepIndex = draftJha.steps.findIndex((s) => s.id === step.id);
+            if (existingStepIndex !== -1) {
+              draftJha.steps[existingStepIndex] = step;
+            } else {
+              draftJha.steps.push(step);
+            }
+          });
+          jhaAdapter.updateOne(state, { id: jhaId, changes: updatedJha });
+        }
+      })      
+      .addCase(fetchStep.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       })

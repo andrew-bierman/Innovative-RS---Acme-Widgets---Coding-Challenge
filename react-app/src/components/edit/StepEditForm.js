@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateStep, deleteStep, updateHazard, createHazard, updateControl, createControl, deleteControl, deleteHazard } from "../../store/thunks";
+import { updateStep, deleteStep, updateHazard, createHazard, updateControl, createControl, deleteControl, deleteHazard, fetchStep } from "../../store/thunks";
 
 export const StepEditForm = ({ index, step }) => {
   const dispatch = useDispatch();
@@ -13,6 +13,10 @@ export const StepEditForm = ({ index, step }) => {
 
   const [newHazards, setNewHazards] = useState([]);
   const [newControls, setNewControls] = useState([]);
+
+  const [deletedHazards, setDeletedHazards] = useState([]);
+  const [deletedControls, setDeletedControls] = useState([]);
+
 
   const handleDescriptionChange = (e) => {
     const value = e.target.value;
@@ -53,6 +57,7 @@ export const StepEditForm = ({ index, step }) => {
       const updatedHazards = [...hazards];
       const hazard = updatedHazards[hazardIndex];
       if (hazard.id) {
+        setDeletedHazards((prev) => [...prev, hazard.id]);
         dispatch(deleteHazard({ jhaId: jha_id, stepId: id, hazardId: hazard.id }));
       }
       updatedHazards.splice(hazardIndex, 1);
@@ -69,6 +74,7 @@ export const StepEditForm = ({ index, step }) => {
       const updatedControls = [...controls];
       const control = updatedControls[controlIndex];
       if (control.id) {
+        setDeletedControls((prev) => [...prev, control.id]);
         dispatch(deleteControl({ jhaId: jha_id, stepId: id, controlId: control.id }));
       }
       updatedControls.splice(controlIndex, 1);
@@ -94,65 +100,81 @@ export const StepEditForm = ({ index, step }) => {
     setNewControls((prev) => [...prev, { key: Date.now(), description: "New Control" }]);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (description !== step.description) {
       dispatch(updateStep({ id, description }));
     }
-
-    hazards.forEach((hazard, index) => {
+  
+    const hazardUpdates = hazards.map((hazard, index) => {
       if (!hazard) return;
-
+  
       const { id: hazardId } = hazard;
       const { description: hazardDescription } = hazard;
-
-      if (!hazardDescription || !hazardId) return;
-
-      dispatch(updateHazard({ jhaId: jha_id, hazardId, description: hazardDescription }));
+  
+      // Check if hazard has been deleted
+      if (hazardId && deletedHazards.includes(hazardId)) {
+        return Promise.resolve();
+      }
+  
+      if (!hazardDescription || !hazardId) return Promise.resolve();
+  
+      return dispatch(updateHazard({ jhaId: jha_id, hazardId, description: hazardDescription }));
     });
-
-    controls.forEach((control, index) => {
+  
+    const controlUpdates = controls.map((control, index) => {
       if (!control) return;
-
+  
       const { id: controlId } = control;
-      const { description: controlDescription } = control
-
-      if (!controlDescription || !controlId) return;
-
-      dispatch(updateControl({ controlId, description: controlDescription }));
+      const { description: controlDescription } = control;
+  
+      // Check if control has been deleted
+      if (controlId && deletedControls.includes(controlId)) {
+        return Promise.resolve();
+      }
+  
+      if (!controlDescription || !controlId) return Promise.resolve();
+  
+      return dispatch(updateControl({ controlId, description: controlDescription }));
     });
-
-    newHazards.forEach((hazard, index) => {
-      if (!hazard) return;
-
+  
+    const newHazardCreations = newHazards.filter((hazard) => !deletedHazards.includes(hazard || hazard.key || hazard.id)).map((hazard, index) => {
+      if (!hazard) return Promise.resolve();
+  
       const { description: hazardDescription } = hazard;
       const { id: stepId } = step;
-
-      if (!hazardDescription || !stepId) return;
-
-      // console.log('jha_id in create haz dispatch: ', jha_id)
-      // console.log('stepId in create haz dispatch: ', stepId)
-      // console.log('step in create haz dispatch: ', step)
-
-      dispatch(createHazard({ jhaId: jha_id, stepId, description: hazardDescription }))
+  
+      if (!hazardDescription || !stepId) return Promise.resolve();
+  
+      return dispatch(createHazard({ jhaId: jha_id, stepId, description: hazardDescription }))
         .then((res) => {
           // console.log('res: ', res)
         });
     });
-
-    newControls.forEach((control, index) => {
-      if (!control) return;
-
+  
+    const newControlCreations = newControls.filter((control) => !deletedControls.includes(control || control.key || control.id)).map((control, index) => {
+      if (!control) return Promise.resolve();
+  
       const { description: controlDescription } = control;
       const { id: stepId } = step;
-
-      if (!controlDescription || !stepId) return;
-
-      dispatch(createControl({ stepId, description: controlDescription }))
+  
+      if (!controlDescription || !stepId) return Promise.resolve();
+  
+      return dispatch(createControl({ stepId, description: controlDescription }))
         .then((res) => {
           console.log('res: ', res)
         });
     });
+  
+    const allUpdatesAndCreations = [...hazardUpdates, ...controlUpdates, ...newHazardCreations, ...newControlCreations];
+  
+    await Promise.all(allUpdatesAndCreations);
+  
+    setDeletedHazards([]);
+    setDeletedControls([]);
+      
+    dispatch(fetchStep(id));
   };
+  
 
   const handleDelete = () => {
     dispatch(deleteStep({ jhaId: jha_id, stepId: id }));

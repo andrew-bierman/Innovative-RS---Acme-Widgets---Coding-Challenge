@@ -21,6 +21,11 @@ export const deleteJHA = createAsyncThunk("jhas/deleteJHA", async (id) => {
     return id;
 });
 
+export const fetchStep = createAsyncThunk("jhas/fetchStep", async (id) => {
+    const response = await axios.get(`/api/step/getStep/${id}`);
+    return response.data.step;
+});
+
 export const createStep = createAsyncThunk(
     "jhas/createStep",
     async ({ jhaId, description }) => {
