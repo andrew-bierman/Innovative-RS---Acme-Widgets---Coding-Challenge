@@ -1,31 +1,37 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+// Thunk to fetch all JHAs
 export const fetchJHAs = createAsyncThunk("jhas/fetchJHAs", async () => {
     const response = await axios.get("/api/jha");
     return response.data.jhas;
 });
 
+// Thunk to create a new JHA
 export const createJHA = createAsyncThunk("jhas/createJHA", async (data) => {
     const response = await axios.post("/api/jha", data);
     return response.data.jha;
 });
 
+// Thunk to update a JHA
 export const updateJHA = createAsyncThunk("jhas/updateJHA", async (data) => {
     const response = await axios.put(`/api/jha/updateJHA/${data.id}`, data);
     return response.data.jha;
 });
 
+// Thunk to delete a JHA
 export const deleteJHA = createAsyncThunk("jhas/deleteJHA", async (id) => {
     await axios.delete(`/api/jha/deleteJHA/${id}`);
     return id;
 });
 
+// Thunk to fetch a single a single step for a JHA
 export const fetchStep = createAsyncThunk("jhas/fetchStep", async (id) => {
     const response = await axios.get(`/api/step/getStep/${id}`);
     return response.data.step;
 });
 
+// Thunk to create a new step for a JHA
 export const createStep = createAsyncThunk(
     "jhas/createStep",
     async ({ jhaId, description }) => {
@@ -37,7 +43,7 @@ export const createStep = createAsyncThunk(
     }
 );
 
-
+// Thunk to update a step for a JHA
 export const updateStep = createAsyncThunk(
     "jhas/updateStep",
     async ({ id, description }) => {
@@ -49,7 +55,7 @@ export const updateStep = createAsyncThunk(
     }
 );
 
-
+// Thunk to delete a step for a JHA
 export const deleteStep = createAsyncThunk(
     "jhas/deleteStep",
     async ({ stepId, jhaId }) => {
@@ -59,11 +65,12 @@ export const deleteStep = createAsyncThunk(
     }
 );
 
+// Thunk to create a new hazard for a step
 export const createHazard = createAsyncThunk(
     "jhas/createHazard",
     async ({ jhaId, stepId, description, control, consequence }) => {
-      console.log("create haz thunk jhaId: ", jhaId);
-      console.log("create haz thunk stepId: ", stepId);
+    //   console.log("create haz thunk jhaId: ", jhaId);
+    //   console.log("create haz thunk stepId: ", stepId);
       const response = await axios.post(`/api/step/${stepId}/hazard`, {
         description,
         control,
@@ -74,7 +81,7 @@ export const createHazard = createAsyncThunk(
     }
   );
   
-
+// Thunk to update a hazard for a step
 export const updateHazard = createAsyncThunk(
     "jhas/updateHazard",
     async ({ jhaId, hazardId, description, control }) => {
@@ -86,6 +93,7 @@ export const updateHazard = createAsyncThunk(
     }
 );
 
+// Thunk to delete a hazard for a step
 export const deleteHazard = createAsyncThunk(
     "jhas/deleteHazard",
     async ({ jhaId, hazardId }) => {
@@ -94,6 +102,7 @@ export const deleteHazard = createAsyncThunk(
     }
 );
 
+// Thunk to create a new control for a step
 export const createControl = createAsyncThunk(
     "jhas/createControl",
     async ({ stepId, description }) => {
@@ -105,7 +114,7 @@ export const createControl = createAsyncThunk(
     }
   );
   
-
+// Thunk to update a control for a step
 export const updateControl = createAsyncThunk(
     "jhas/updateControl",
     async ({ controlId, description }) => {
@@ -116,6 +125,7 @@ export const updateControl = createAsyncThunk(
     }
 );
 
+// Thunk to delete a control for a step
 export const deleteControl = createAsyncThunk(
     "jhas/deleteControl",
     async ({ controlId, jhaId, stepId }) => {
@@ -123,5 +133,3 @@ export const deleteControl = createAsyncThunk(
         return {controlId, jhaId, stepId};
     }
 );
-
-

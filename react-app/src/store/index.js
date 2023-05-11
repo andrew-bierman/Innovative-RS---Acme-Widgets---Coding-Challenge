@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import { applyMiddleware, compose } from 'redux';
 import jhaReducer from './jhaSlice';
 
+// Create a root reducer, which will contain our one reducer
 const rootReducer = combineReducers({
   jhas: jhaReducer,
 });
 
 let enhancer;
 
+// Conditionally apply middleware depending on environment, for the Redux DevTools
 if (process.env.NODE_ENV === 'production') {
   enhancer = applyMiddleware(thunk);
 } else {
@@ -18,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
+// Create a configureStore function with our rootReducer and the above enhancer
 const store = configureStore({
   reducer: rootReducer,
   middleware: [thunk],
