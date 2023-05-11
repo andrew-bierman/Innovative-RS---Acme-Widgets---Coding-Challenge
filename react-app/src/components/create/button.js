@@ -5,6 +5,7 @@ import { createJHA } from '../../store/thunks';
 import { CreateJHAForm } from '.';
 
 export const CreateJHAButton = () => {
+  // Set up state for form
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [formErrors, setFormErrors] = useState({ title: '', author: '' });
@@ -12,6 +13,7 @@ export const CreateJHAButton = () => {
 
   const dispatch = useDispatch();
 
+  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 

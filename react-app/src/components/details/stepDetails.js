@@ -4,6 +4,7 @@ export const StepDetails = ({ step, index }) => {
   const hazards = step.hazards || [];
   const controls = step.controls || [];
 
+  // Loop through the hazards and controls and create a table row for each
   const rows = [];
   const numRows = Math.max(hazards.length, controls.length);
   for (let i = 0; i < numRows; i++) {

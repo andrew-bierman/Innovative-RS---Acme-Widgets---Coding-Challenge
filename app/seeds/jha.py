@@ -53,6 +53,8 @@ def create_jha(title, author):
 
 
 def seed_jhas():
+
+    # Set up some sample data
     jha_data = [    
         {"title": "Repair of Heavy Machinery", "author": "John Smith"}, 
         {"title": "Maintenance of Conveyor Belts", "author": "Jane Doe"},    
@@ -66,7 +68,7 @@ def seed_jhas():
         {"title": "Packaging and Shipping of Goods", "author": "Frank Sinatra"},
     ]
 
-
+    # Loop through the sample data and add it to the database
     for jha_item in jha_data:
         create_jha(jha_item["title"], jha_item["author"])
 

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
 export const AddStep = ({ jhaId, onAddStep }) => {
+    // Set up state for the description
     const [description, setDescription] = useState("");
 
+    // Handle form submission
     const handleClick = (e) => {
         e.preventDefault(); // Prevent the default form submission
 

@@ -275,12 +275,15 @@ export const jhaSlice = createSlice({
         state.status = "succeeded";
         const jha = state.entities[action.payload.jhaId];
         if (jha) {
-          const stepIndex = jha.steps.findIndex(step => step.id === action.payload.step_id);
+          const stepIndex = jha.steps.findIndex(step => step.id === action.payload.stepId);
           if (stepIndex !== -1) {
-            jha.steps[stepIndex].controls = jha.steps[stepIndex].controls.filter(control => control.id !== action.payload.id);
+            const updatedControls = produce(jha.steps[stepIndex].controls, (draftControls) => {
+              return draftControls.filter(control => control.id !== action.payload.controlId);
+            });
+            jha.steps[stepIndex].controls = updatedControls;
           }
         }
-      })
+      })      
       .addCase(deleteControl.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;

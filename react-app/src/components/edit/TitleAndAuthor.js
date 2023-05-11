@@ -6,22 +6,25 @@ import { updateJHA } from "../../store/thunks";
 const TitleAndAuthor = ({ title, author, jhaId, activeAccordion, onAccordionChange }) => {
     const dispatch = useDispatch();
 
+    // Creating state variables for the new title and author values
     const [newTitle, setNewTitle] = useState(title || "");
     const [newAuthor, setNewAuthor] = useState(author || "");
 
+    // Handling changes to the title and author input fields
     const handleTitleChange = (e) => {
         setNewTitle(e.target.value);
     };
-
     const handleAuthorChange = (e) => {
         setNewAuthor(e.target.value);
     };
 
+    // Toggling the accordion when the header is clicked
     const handleAccordionToggle = (e) => {
         e.preventDefault();
         onAccordionChange(activeAccordion === "title-and-author" ? "" : "title-and-author");
     };
 
+    // Dispatching the updateJHA action when the Save button is clicked
     const handleSave = (e) => {
         e.preventDefault();
         dispatch(updateJHA({ id: jhaId, title: newTitle, author: newAuthor }));

@@ -1,6 +1,7 @@
 export const AdditionalDetails = ({ jha }) => {
   const { trainings, ppes } = jha;
 
+  // Rendering the table of trainings and ppes
   return (
     <div className="mb-5">
       <h4 className="title is-5">Trainings</h4>

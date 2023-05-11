@@ -2,11 +2,9 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { applyMiddleware, compose } from 'redux';
 import jhaReducer from './jhaSlice';
-import singleJHAReducer from './singleJHASlice';
 
 const rootReducer = combineReducers({
   jhas: jhaReducer,
-  // singleJHA: singleJHAReducer,
 });
 
 let enhancer;

@@ -90,7 +90,7 @@ export const deleteHazard = createAsyncThunk(
     "jhas/deleteHazard",
     async ({ jhaId, hazardId }) => {
         await axios.delete(`/api/hazard/${hazardId}`);
-        return hazardId;
+        return {hazardId, jhaId};
     }
 );
 
@@ -118,9 +118,9 @@ export const updateControl = createAsyncThunk(
 
 export const deleteControl = createAsyncThunk(
     "jhas/deleteControl",
-    async ({ controlId }) => {
+    async ({ controlId, jhaId, stepId }) => {
         await axios.delete(`/api/control/${controlId}`);
-        return controlId;
+        return {controlId, jhaId, stepId};
     }
 );
 

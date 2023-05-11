@@ -2,7 +2,7 @@ import React from 'react';
 
 export const CreateJHAForm = ({ title, setTitle, author, setAuthor, errors }) => {
   return (
-    <form>
+    <div className='form'>
       <div className={`field ${errors.title ? 'has-error' : ''}`}>
         <label className="label" htmlFor="title">
           Title
@@ -44,6 +44,6 @@ export const CreateJHAForm = ({ title, setTitle, author, setAuthor, errors }) =>
         </div>
         {errors.author && <p className="help is-danger">{errors.author}</p>}
       </div>
-    </form>
+    </div>
   );
 };
